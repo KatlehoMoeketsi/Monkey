@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="38b64ec0-4e12-4666-a0db-aa21c110200c" name="Changes" comment="Initial commit">
-      <change afterPath="$PROJECT_DIR$/monkey.py" afterDir="false" />
+    <list default="true" id="38b64ec0-4e12-4666-a0db-aa21c110200c" name="Changes" comment="Added assets folder with fonts and applied to the two main labels">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/monkey.py" beforeDir="false" afterPath="$PROJECT_DIR$/monkey.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +23,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "KatlehoMoeketsi"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/KatlehoMoeketsi/Monkey.git",
+    "accountId": "fb739b4e-87d2-4444-9cbc-9f3372144902"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -95,11 +107,20 @@
       <option name="project" value="LOCAL" />
       <updated>1739050168102</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added assets folder with fonts and applied to the two main labels">
+      <option name="closed" value="true" />
+      <created>1739275248132</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1739275248132</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
+    <MESSAGE value="Added assets folder with fonts and applied to the two main labels" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added assets folder with fonts and applied to the two main labels" />
   </component>
 </project>
