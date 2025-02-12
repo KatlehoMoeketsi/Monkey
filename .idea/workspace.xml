@@ -115,11 +115,28 @@
       <option name="project" value="LOCAL" />
       <updated>1739275248132</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added assets folder with fonts and applied to the two main labels">
+      <option name="closed" value="true" />
+      <created>1739293614005</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1739293614005</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added assets folder with fonts and applied to the two main labels">
+      <option name="closed" value="true" />
+      <created>1739293678407</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1739293678407</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
+    <MESSAGE value="Gave the about button and Add button dialog boxes using MDBoxLayout and MDDialog." />
     <MESSAGE value="Added assets folder with fonts and applied to the two main labels" />
     <option name="LAST_COMMIT_MESSAGE" value="Added assets folder with fonts and applied to the two main labels" />
   </component>

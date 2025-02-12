@@ -25,16 +25,16 @@ class AddWordContent(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.orientation = "vertical"
-        self.word_input  = MDTextField(hint_text="Enter a word")
+        self.word_input  = MDTextField(
+            hint_text="Enter a word",
+            mode="round")
         self.size_hint_y = None
         self.add_widget(self.word_input)
-
-
 
 class Monkey(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.content = None
+
         self.word_input = None
         self.dialog = None
         self.screen = None
@@ -175,19 +175,23 @@ class Monkey(MDApp):
             self.dialog = MDDialog(
                 title = "Add a word",
                 type="custom",
-
                 height = "200dp",
                 pos_hint={"center_y":0.5},
                 content_cls= self.content,
                 buttons = [
                     MDFlatButton(text = "Cancel", on_release=lambda x: self.dialog.dismiss()),
-                    MDFlatButton(text = "Add", on_release=lambda x: self.add_words),
+                    MDFlatButton(text = "Add", on_release=lambda x: self.add_words, on_press=self.add_words),
             ],
+
         )
         self.dialog.open()
 
     def add_words(self,instance):
-        pass
+        word  = self.content.word_input.text
+        print(f"Word sent to database:{word}")
+        # self.cursor = self.conn.cursor()
+        # self.cursor.execute("INSERT INTO monkeywords (word) VALUES (?)", (word,)")
+
 
     def show_about_dialog(self, instance):
         dialog = MDDialog(
