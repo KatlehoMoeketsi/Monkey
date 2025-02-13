@@ -17,7 +17,8 @@ from kivy.core.window import Window
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.button import MDIconButton
 from kivy.core.text import  LabelBase
-from kivymd.uix.snackbar import Snackbar
+from kivymd.uix.snackbar import  MDSnackbar
+from kivymd.uix.label import MDLabel
 import random
 from kivymd.toast import toast
 from kivymd.uix.textfield import MDTextField
@@ -54,6 +55,7 @@ class Monkey(MDApp):
         self.header_label = None
         self.header = None
         self.layout = None
+
 
         # Window.fullscreen = 'auto'
         Window.clear_color = (0.565, 0.933, 0.565, 1)
@@ -169,11 +171,6 @@ class Monkey(MDApp):
         else:
             self.generate_label.text="No words found"  # Handle empty database
 
-    def show_snackBar(self):
-        Snackbar(
-            text = "Test",
-            duration = 3,
-        ).open()
 
     def add_word_dialog(self, instance):
         if not self.dialog:
@@ -194,7 +191,14 @@ class Monkey(MDApp):
         self.dialog.open()
 
     def show_successful(self):
-        toast("Word added successfully")
+        self.snackbar = MDSnackbar(
+
+            MDLabel(text= "Word Added Successfully", halign="center"),
+            pos_hint = {"center_x": 0.5, "y":0.1},
+            duration= 3,
+            md_bg_color = (0,0,0,1),
+        )
+        self.snackbar.open()
 
     def show_unsuccessful(self):
         dialog = MDDialog(

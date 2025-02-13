@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="38b64ec0-4e12-4666-a0db-aa21c110200c" name="Changes" comment="Coded the code for adding the words to the database">
+    <list default="true" id="38b64ec0-4e12-4666-a0db-aa21c110200c" name="Changes" comment="Added another toast and input validation for if nothing was entered into the textfield">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/monkey.py" beforeDir="false" afterPath="$PROJECT_DIR$/monkey.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/monkeywords.db" beforeDir="false" afterPath="$PROJECT_DIR$/monkeywords.db" afterDir="false" />
@@ -148,7 +148,23 @@
       <option name="project" value="LOCAL" />
       <updated>1739432780455</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added Toast to the code for adding a word to the database to show that the word was added successfully.">
+      <option name="closed" value="true" />
+      <created>1739465351125</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1739465351125</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added another toast and input validation for if nothing was entered into the textfield">
+      <option name="closed" value="true" />
+      <created>1739465384284</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1739465384284</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -157,6 +173,8 @@
     <MESSAGE value="Added assets folder with fonts and applied to the two main labels" />
     <MESSAGE value="Code the logic for adding a word in the add_words function." />
     <MESSAGE value="Coded the code for adding the words to the database" />
-    <option name="LAST_COMMIT_MESSAGE" value="Coded the code for adding the words to the database" />
+    <MESSAGE value="Added Toast to the code for adding a word to the database to show that the word was added successfully." />
+    <MESSAGE value="Added another toast and input validation for if nothing was entered into the textfield" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added another toast and input validation for if nothing was entered into the textfield" />
   </component>
 </project>
