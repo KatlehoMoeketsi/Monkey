@@ -19,7 +19,7 @@ from kivymd.uix.button import MDIconButton
 from kivy.core.text import  LabelBase
 from kivymd.uix.snackbar import Snackbar
 import random
-
+from kivymd.toast import toast
 from kivymd.uix.textfield import MDTextField
 
 class AddWordContent(MDBoxLayout):
@@ -181,26 +181,40 @@ class Monkey(MDApp):
             self.dialog = MDDialog(
                 title = "Add a word",
                 type="custom",
-                height = "200dp",
+                height = "100dp",
                 pos_hint={"center_y":0.5},
                 content_cls= self.content,
                 buttons = [
                     MDFlatButton(text = "Cancel", on_release=lambda x: self.dialog.dismiss()),
-                    MDFlatButton(text = "Add", on_release=lambda x: self.add_words, on_press=self.add_words),
+                    MDFlatButton(text = "Add", on_release=lambda x: self.add_words(),),
             ]
 
             )
 
         self.dialog.open()
 
+    def show_successful(self):
+        toast("Word added successfully")
 
-    def add_words(self,instance):
-        word  = self.content.word_input.text
-        print(f"Word sent to database:{word}")
-        cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO monkeywords (word) VALUES (?)", (word,))
-        self.conn.commit()
-        self.content.word_input.text = ""
+    def show_unsuccessful(self):
+        dialog = MDDialog(
+            title="Oops!",
+            text="Error, Please add a word to the text field and click 'Add' to continue ",
+            buttons=[MDFlatButton(text="Close", on_release=lambda x: dialog.dismiss())
+                     ],
+        )
+        dialog.open()
+
+    def add_words(self):
+        word = self.content.word_input.text.title()
+        if word:
+            cursor = self.conn.cursor()
+            cursor.execute("INSERT INTO monkeywords (word) VALUES (?)", (word,))
+            self.conn.commit()
+            self.conn.close()
+            self.content.word_input.text = ""
+            self.show_successful()
+
 
 
     def show_about_dialog(self, instance):
