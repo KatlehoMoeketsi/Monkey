@@ -17,6 +17,7 @@ from kivy.core.window import Window
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.button import MDIconButton
 from kivy.core.text import  LabelBase
+from kivymd.uix.snackbar import Snackbar
 import random
 
 from kivymd.uix.textfield import MDTextField
@@ -152,7 +153,6 @@ class Monkey(MDApp):
                              id INTEGER PRIMARY KEY AUTOINCREMENT,
                              word TEXT NOT NULL)''')
         self.conn.commit()
-        self.conn.close()
 
     def generate_random_word(self,instance):
         conn = sqlite3.connect("monkeywords.db")  # Connect to your database
@@ -169,6 +169,12 @@ class Monkey(MDApp):
         else:
             self.generate_label.text="No words found"  # Handle empty database
 
+    def show_snackBar(self):
+        Snackbar(
+            text = "Test",
+            duration = 3,
+        ).open()
+
     def add_word_dialog(self, instance):
         if not self.dialog:
             self.content = AddWordContent()
@@ -181,16 +187,20 @@ class Monkey(MDApp):
                 buttons = [
                     MDFlatButton(text = "Cancel", on_release=lambda x: self.dialog.dismiss()),
                     MDFlatButton(text = "Add", on_release=lambda x: self.add_words, on_press=self.add_words),
-            ],
+            ]
 
-        )
+            )
+
         self.dialog.open()
+
 
     def add_words(self,instance):
         word  = self.content.word_input.text
         print(f"Word sent to database:{word}")
-        # self.cursor = self.conn.cursor()
-        # self.cursor.execute("INSERT INTO monkeywords (word) VALUES (?)", (word,)")
+        cursor = self.conn.cursor()
+        cursor.execute("INSERT INTO monkeywords (word) VALUES (?)", (word,))
+        self.conn.commit()
+        self.content.word_input.text = ""
 
 
     def show_about_dialog(self, instance):
