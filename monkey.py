@@ -214,7 +214,9 @@ class Monkey(MDApp):
             self.conn.close()
             self.content.word_input.text = ""
             self.show_successful()
-
+        else:
+            self.show_unsuccessful()
+        self.dialog.dismiss()
 
 
     def show_about_dialog(self, instance):
