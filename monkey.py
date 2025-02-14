@@ -14,6 +14,8 @@ from kivymd.uix.snackbar import  MDSnackbar
 from kivymd.uix.label import MDLabel
 import random
 from kivymd.uix.textfield import MDTextField
+from kivy.utils import get_color_from_hex
+from kivymd.uix.button import MDRaisedButton
 
 
 
@@ -53,7 +55,6 @@ class Monkey(MDApp):
 
 
         # Window.fullscreen = 'auto'
-        Window.clear_color = (0.565, 0.933, 0.565, 1)
         LabelBase.register(name="TeachersPet", fn_regular="assets/teachersPet.ttf")
         LabelBase.register(name="SquareKids", fn_regular="assets/SquareKids.ttf")
         self.conn= sqlite3.connect("monkeywords.db")
@@ -72,10 +73,9 @@ class Monkey(MDApp):
            Raises:
                AttributeError: If any of the properties within the widgets are wrong.
            """
-        self.screen = MDScreen(md_bg_color =(0.565, 0.933, 0.565, 1))
 
         #Main Layout is root which will contain two boxes side by side
-        self.root = BoxLayout(orientation="horizontal")
+        self.root = MDBoxLayout(orientation="horizontal" , md_bg_color=get_color_from_hex("#008000"))
 
         #first box situated on the right, and it is the main layout carrying most elements
         self.layout = BoxLayout(orientation="vertical")
@@ -131,7 +131,14 @@ class Monkey(MDApp):
                                     valign="middle",
                                     font_name="TeachersPet")
 
-        self.generate_word = Button(text="Generate", size_hint=(1,None), height=30)
+        self.generate_word = MDRaisedButton(text="Generate",
+                                    font_name="TeachersPet",
+                                    font_size=20,
+                                    size_hint=(1,None),
+                                    md_bg_color = get_color_from_hex("#C3FDB8"),
+                                    text_color= get_color_from_hex("#000000"),
+                                    height=30)
+
         self.generate_word.bind(on_press=self.generate_random_word)
 
         self.middle.add_widget(self.generate_label)
@@ -202,7 +209,7 @@ class Monkey(MDApp):
         else:
             self.generate_label.text="No words found"  # Handle empty database
 
-    def add_word_dialog(self):
+    def add_word_dialog(self,instance):
         """
            Add Word Dialog window
 
@@ -305,7 +312,7 @@ class Monkey(MDApp):
 
 
     @staticmethod
-    def show_about_dialog():
+    def show_about_dialog(self):
         """
          About window pops up to give more information on the method
 
