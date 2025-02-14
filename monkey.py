@@ -1,15 +1,8 @@
-from docutils.nodes import title
-from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.label import Label
-from kivymd.app import MDApp
-from kivymd.theming import ThemeManager
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
-import requests
 import sqlite3
 from kivy.uix.boxlayout import BoxLayout
 from kivymd.app import MDApp
@@ -20,8 +13,9 @@ from kivy.core.text import  LabelBase
 from kivymd.uix.snackbar import  MDSnackbar
 from kivymd.uix.label import MDLabel
 import random
-from kivymd.toast import toast
 from kivymd.uix.textfield import MDTextField
+
+
 
 class AddWordContent(MDBoxLayout):
     def __init__(self, **kwargs):
@@ -33,20 +27,20 @@ class AddWordContent(MDBoxLayout):
         self.size_hint_y = None
         self.add_widget(self.word_input)
 
+
 class Monkey(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+
+        self.snackbar = None
+        self.content = None
         self.word_input = None
         self.dialog = None
         self.screen = None
         self.about_program = None
         self.add_word_btn = None
         self.left_section = None
-        self.theme_cls.theme_style = "Dark"
-        self.theme_cls.primary_palette = "Blue"
-        self.theme_cls.accent_palette = "Amber"
-        self.theme_cls.primary_hue = "500"
         self.info = None
         self.bottom = None
         self.generate_word = None
@@ -57,6 +51,7 @@ class Monkey(MDApp):
         self.layout = None
 
 
+
         # Window.fullscreen = 'auto'
         Window.clear_color = (0.565, 0.933, 0.565, 1)
         LabelBase.register(name="TeachersPet", fn_regular="assets/teachersPet.ttf")
@@ -65,6 +60,18 @@ class Monkey(MDApp):
         self.init_db()
 
     def build(self):
+        """
+           Main point in kivy to build the UI.
+
+           Args:
+               self
+
+           Returns:
+               object - self.root of type BoxLayout
+
+           Raises:
+               AttributeError: If any of the properties within the widgets are wrong.
+           """
         self.screen = MDScreen(md_bg_color =(0.565, 0.933, 0.565, 1))
 
         #Main Layout is root which will contain two boxes side by side
@@ -87,7 +94,6 @@ class Monkey(MDApp):
 
         self.left_section.add_widget(self.add_word_btn)
         self.left_section.add_widget(self.about_program)
-
 
 
         #Top section
@@ -150,13 +156,38 @@ class Monkey(MDApp):
         return self.root
 
     def init_db(self):
+        """
+           Loads the database
+
+           Args:
+               self
+
+           Returns:
+               None
+
+           Raises:
+               Database Exceptions: SQL errors
+       """
         cursor = self.conn.cursor()
         cursor.execute('''CREATE TABLE IF NOT EXISTS monkeywords (
                              id INTEGER PRIMARY KEY AUTOINCREMENT,
                              word TEXT NOT NULL)''')
         self.conn.commit()
 
-    def generate_random_word(self,instance):
+    def generate_random_word(self, instance):
+        """
+           Generates the random word after the Generate button is clicked
+
+           Args:
+               self
+
+           Returns:
+              None
+
+           Raises:
+
+       """
+
         conn = sqlite3.connect("monkeywords.db")  # Connect to your database
         cursor = conn.cursor()
 
@@ -171,8 +202,20 @@ class Monkey(MDApp):
         else:
             self.generate_label.text="No words found"  # Handle empty database
 
+    def add_word_dialog(self):
+        """
+           Add Word Dialog window
 
-    def add_word_dialog(self, instance):
+           Args:
+               self
+
+           Returns:
+               None
+
+           Raises:
+               AttributeError: If any of the properties within the widgets are wrong.
+       """
+
         if not self.dialog:
             self.content = AddWordContent()
             self.dialog = MDDialog(
@@ -191,6 +234,19 @@ class Monkey(MDApp):
         self.dialog.open()
 
     def show_successful(self):
+        """
+          SnackBar message for successful insertion into database.
+
+           Args:
+               self
+
+           Returns:
+               None
+
+           Raises:
+               AttributeError: If any of the properties within the widgets are wrong.
+       """
+
         self.snackbar = MDSnackbar(
 
             MDLabel(text= "Word Added Successfully", halign="center"),
@@ -200,7 +256,20 @@ class Monkey(MDApp):
         )
         self.snackbar.open()
 
-    def show_unsuccessful(self):
+    @staticmethod
+    def show_unsuccessful():
+        """
+         SnackBar message for unsuccessful insertion into database.
+
+          Args:
+
+
+          Returns:
+              None
+
+          Raises:
+              AttributeError: If any of the properties within the widgets are wrong.
+      """
         dialog = MDDialog(
             title="Oops!",
             text="Error, Please add a word to the text field and click 'Add' to continue ",
@@ -210,6 +279,18 @@ class Monkey(MDApp):
         dialog.open()
 
     def add_words(self):
+        """
+         Code logic to add words to the database
+
+          Args:
+              self
+
+          Returns:
+              None
+
+          Raises:
+              SQL Error: If database is closed, operation cannot be executed.
+        """
         word = self.content.word_input.text.title()
         if word:
             cursor = self.conn.cursor()
@@ -223,7 +304,20 @@ class Monkey(MDApp):
         self.dialog.dismiss()
 
 
-    def show_about_dialog(self, instance):
+    @staticmethod
+    def show_about_dialog():
+        """
+         About window pops up to give more information on the method
+
+          Args:
+
+
+          Returns:
+              None
+
+          Raises:
+              AttributeError: If any of the properties within the widgets are wrong.
+        """
         dialog = MDDialog(
             title = "About this App",
             text= "Sample application using KivyMD.\nBuilt with Python and Kivy",
