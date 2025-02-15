@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="38b64ec0-4e12-4666-a0db-aa21c110200c" name="Changes" comment="Removing unused imports, fixed warnings and adding comments under all my function headers in monkey.py">
+    <list default="true" id="38b64ec0-4e12-4666-a0db-aa21c110200c" name="Changes" comment="Change background color to green and changed the generate button to a light green.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/monkey.py" beforeDir="false" afterPath="$PROJECT_DIR$/monkey.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monkeywords.db" beforeDir="false" afterPath="$PROJECT_DIR$/monkeywords.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +187,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739520740834</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Change background color to green and changed the generate button to a light green.">
+      <option name="closed" value="true" />
+      <created>1739523446066</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1739523446066</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -201,6 +208,7 @@
     <MESSAGE value="Added another toast and input validation for if nothing was entered into the textfield" />
     <MESSAGE value="Changed the toast to a snackbar for adding a word to the db" />
     <MESSAGE value="Removing unused imports, fixed warnings and adding comments under all my function headers in monkey.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removing unused imports, fixed warnings and adding comments under all my function headers in monkey.py" />
+    <MESSAGE value="Change background color to green and changed the generate button to a light green." />
+    <option name="LAST_COMMIT_MESSAGE" value="Change background color to green and changed the generate button to a light green." />
   </component>
 </project>

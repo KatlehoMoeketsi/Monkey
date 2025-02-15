@@ -110,7 +110,7 @@ class Monkey(MDApp):
             halign="center",
             valign="middle",
             font_size=50,
-            font_name="SquareKids"
+            font_name="TeachersPet"
         )
         self.header.add_widget(self.header_label)
         self.layout.add_widget(self.header)
