@@ -17,6 +17,27 @@ from kivymd.uix.textfield import MDTextField
 from kivy.utils import get_color_from_hex
 from kivymd.uix.button import MDRaisedButton
 
+#import required modules
+import firebase_admin
+from firebase_admin import db, credentials
+
+#authenticate to firebase
+cred = credentials.Certificate("credentials.json")
+firebase_admin.initialize_app(cred, {"databaseURL": "https://momonkeywords-default-rtdb.europe-west1.firebasedatabase.app/"})
+
+#creating reference to root node - cursor
+ref = db.reference("/")
+print(ref.get())
+#retrieving data from root node - Select All
+# ref.get()
+
+#getting a specific value in the JSON  - Select
+# print(db.reference("/words").get())
+
+#Set operation - Update
+# print(f"the new value is:{ref.get()}")
+
+
 
 
 class AddWordContent(MDBoxLayout):
@@ -303,13 +324,17 @@ class Monkey(MDApp):
             cursor = self.conn.cursor()
             cursor.execute("INSERT INTO monkeywords (word) VALUES (?)", (word,))
             self.conn.commit()
-            self.conn.close()
             self.content.word_input.text = ""
+
+            #push the word to the database
+            db.reference("/words").push().set(word)
+
             self.show_successful()
+
+
         else:
             self.show_unsuccessful()
         self.dialog.dismiss()
-
 
     @staticmethod
     def show_about_dialog(self):
