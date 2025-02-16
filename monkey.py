@@ -55,7 +55,6 @@ class Monkey(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-
         self.snackbar = None
         self.content = None
         self.word_input = None
@@ -75,7 +74,7 @@ class Monkey(MDApp):
 
 
 
-        # Window.fullscreen = 'auto'
+        Window.fullscreen = 'auto'
         LabelBase.register(name="TeachersPet", fn_regular="assets/teachersPet.ttf")
         LabelBase.register(name="SquareKids", fn_regular="assets/SquareKids.ttf")
         self.conn= sqlite3.connect("monkeywords.db")
@@ -146,7 +145,7 @@ class Monkey(MDApp):
             pos_hint={"center_x":0.5}
         )
         self.generate_label = Label(text="Click Button to generate a Word",
-                                    font_size=50, size_hint_y=0.3,
+                                    font_size=80, size_hint_y=0.3,
                                     text_size=(400, None),
                                     halign="center",
                                     valign="middle",
