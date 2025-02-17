@@ -1,4 +1,3 @@
-from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.dialog import MDDialog
@@ -7,16 +6,20 @@ import sqlite3
 from kivy.uix.boxlayout import BoxLayout
 from kivymd.app import MDApp
 from kivy.core.window import Window
-from kivymd.uix.screen import MDScreen
+from kivy.metrics import dp
 from kivymd.uix.button import MDIconButton
 from kivy.core.text import  LabelBase
 from kivymd.uix.snackbar import  MDSnackbar
 from kivymd.uix.label import MDLabel
 import random
+import threading
+import time
+from kivy.clock import Clock
+from kivy.uix.screenmanager import Screen, ScreenManager
 from kivymd.uix.textfield import MDTextField
 from kivy.utils import get_color_from_hex
 from kivymd.uix.button import MDRaisedButton
-
+from kivymd.uix.spinner import MDSpinner
 #import required modules
 import firebase_admin
 from firebase_admin import db, credentials
@@ -28,15 +31,15 @@ firebase_admin.initialize_app(cred, {"databaseURL": "https://momonkeywords-defau
 #creating reference to root node - cursor
 ref = db.reference("/")
 print(ref.get())
-#retrieving data from root node - Select All
-# ref.get()
 
-#getting a specific value in the JSON  - Select
-# print(db.reference("/words").get())
 
-#Set operation - Update
-# print(f"the new value is:{ref.get()}")
+class MainScreen(Screen):
+    def open_new_window(self):
+        self.manager.current = "new_screen"
 
+class NewScreen(Screen):
+    def go_back(self):
+        self.manager.current = "main"
 
 
 
@@ -55,6 +58,7 @@ class Monkey(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+        self.spinner = None
         self.snackbar = None
         self.content = None
         self.word_input = None
@@ -71,8 +75,6 @@ class Monkey(MDApp):
         self.header_label = None
         self.header = None
         self.layout = None
-
-
 
         Window.fullscreen = 'auto'
         LabelBase.register(name="TeachersPet", fn_regular="assets/teachersPet.ttf")
@@ -93,6 +95,19 @@ class Monkey(MDApp):
            Raises:
                AttributeError: If any of the properties within the widgets are wrong.
            """
+        sm = ScreenManager()
+        sm.add_widget(MainScreen(name="main"))
+        sm.add_widget(NewScreen(name="new_screen"))
+
+        self.spinner = MDSpinner(
+            size_hint=(None,None),
+            size = (dp(48), dp(48)),
+            active=True,
+            pos_hint={"center_x": 0.5}
+        )
+
+
+
 
         #Main Layout is root which will contain two boxes side by side
         self.root = MDBoxLayout(orientation="horizontal" , md_bg_color=get_color_from_hex("#008000"))
@@ -177,10 +192,24 @@ class Monkey(MDApp):
         self.info = Label(text="techmerce productions",size_hint_y=0.3, font_size=12,halign="center", valign="middle")
         self.bottom.add_widget(self.info)
         self.layout.add_widget(self.bottom)
-
+        self.root.add_widget(self.spinner)
         self.root.add_widget(self.left_section)
         self.root.add_widget(self.layout)
         return self.root
+
+    def on_start(self):
+        threading.Thread(target=self.initialize_app, daemon=True).start()
+
+
+    def initialize_app(self):
+        time.sleep(5)
+        Clock.schedule_once(self.on_initialize_complete)
+
+    def on_initialize_complete(self, dt):
+        self.layout.clear_widgets()
+
+
+
 
     def init_db(self):
         """
