@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="38b64ec0-4e12-4666-a0db-aa21c110200c" name="Changes" comment="Added a spinner code to load in the background while the app initializes.">
+    <list default="true" id="38b64ec0-4e12-4666-a0db-aa21c110200c" name="Changes" comment="Added a spinner code to load in the background while the app initializes. functional loading screen but add function does not work.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/monkey.py" beforeDir="false" afterPath="$PROJECT_DIR$/monkey.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/monkeywords.db" beforeDir="false" afterPath="$PROJECT_DIR$/monkeywords.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,7 +214,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739796413356</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Added a spinner code to load in the background while the app initializes. functional loading screen but add function does not work.">
+      <option name="closed" value="true" />
+      <created>1739882478136</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1739882478136</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -240,6 +249,7 @@
     <MESSAGE value="Change background color to green and changed the generate button to a light green." />
     <MESSAGE value="Began with firebase integration." />
     <MESSAGE value="Added a spinner code to load in the background while the app initializes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added a spinner code to load in the background while the app initializes." />
+    <MESSAGE value="Added a spinner code to load in the background while the app initializes. functional loading screen but add function does not work." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added a spinner code to load in the background while the app initializes. functional loading screen but add function does not work." />
   </component>
 </project>
