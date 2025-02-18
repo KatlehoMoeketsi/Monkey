@@ -33,16 +33,6 @@ ref = db.reference("/")
 print(ref.get())
 
 
-class MainScreen(Screen):
-    def open_new_window(self):
-        self.manager.current = "new_screen"
-
-class NewScreen(Screen):
-    def go_back(self):
-        self.manager.current = "main"
-
-
-
 class AddWordContent(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -53,17 +43,38 @@ class AddWordContent(MDBoxLayout):
         self.size_hint_y = None
         self.add_widget(self.word_input)
 
+class SplashScreen(BoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(orientation='vertical', spacing=dp(10), padding=dp(20), **kwargs)
+        self.label = MDLabel(text="Loading...",
+                             halign="center",
+                             theme_text_color="Custom",
+                             text_color=(1,1,1,1),
+                             font_name = "TeachersPet"
+                             )
+        self.spinner = MDSpinner(
+            size_hint=(None,None),
+            size=(dp(48), dp(48)),
+            active=True,
+            pos_hint = {"center_x": 0.5, "center_y":0.5}
+        )
+        self.add_widget(self.label)
+        self.add_widget(self.spinner)
+
 
 class Monkey(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
-        self.spinner = None
-        self.snackbar = None
-        self.content = None
-        self.word_input = None
+        self.info = None
+        self.left_section = None
+        self.layout = None
+        self.generate_word = None
+        self.splash = None
+        self.generate_label = None
+        self.conn = None
         self.dialog = None
-        self.screen = None
+
+    def build(self):
         self.about_program = None
         self.add_word_btn = None
         self.left_section = None
@@ -76,13 +87,12 @@ class Monkey(MDApp):
         self.header = None
         self.layout = None
 
-        Window.fullscreen = 'auto'
+        # Window.fullscreen = 'auto'
         LabelBase.register(name="TeachersPet", fn_regular="assets/teachersPet.ttf")
         LabelBase.register(name="SquareKids", fn_regular="assets/SquareKids.ttf")
-        self.conn= sqlite3.connect("monkeywords.db")
-        self.init_db()
 
-    def build(self):
+        self.splash = SplashScreen()
+
         """
            Main point in kivy to build the UI.
 
@@ -95,19 +105,6 @@ class Monkey(MDApp):
            Raises:
                AttributeError: If any of the properties within the widgets are wrong.
            """
-        sm = ScreenManager()
-        sm.add_widget(MainScreen(name="main"))
-        sm.add_widget(NewScreen(name="new_screen"))
-
-        self.spinner = MDSpinner(
-            size_hint=(None,None),
-            size = (dp(48), dp(48)),
-            active=True,
-            pos_hint={"center_x": 0.5}
-        )
-
-
-
 
         #Main Layout is root which will contain two boxes side by side
         self.root = MDBoxLayout(orientation="horizontal" , md_bg_color=get_color_from_hex("#008000"))
@@ -147,8 +144,6 @@ class Monkey(MDApp):
             font_size=50,
             font_name="TeachersPet"
         )
-        self.header.add_widget(self.header_label)
-        self.layout.add_widget(self.header)
 
 
         #middle section
@@ -176,9 +171,6 @@ class Monkey(MDApp):
 
         self.generate_word.bind(on_press=self.generate_random_word)
 
-        self.middle.add_widget(self.generate_label)
-        self.middle.add_widget(self.generate_word)
-        self.layout.add_widget(self.middle)
 
 
         #bottom section
@@ -190,11 +182,8 @@ class Monkey(MDApp):
             pos_hint={"center_x": 0.5}
         )
         self.info = Label(text="techmerce productions",size_hint_y=0.3, font_size=12,halign="center", valign="middle")
-        self.bottom.add_widget(self.info)
-        self.layout.add_widget(self.bottom)
-        self.root.add_widget(self.spinner)
-        self.root.add_widget(self.left_section)
-        self.root.add_widget(self.layout)
+
+        self.root.add_widget(self.splash)
         return self.root
 
     def on_start(self):
@@ -203,10 +192,21 @@ class Monkey(MDApp):
 
     def initialize_app(self):
         time.sleep(5)
+        self.conn = sqlite3.connect("monkeywords.db")
+        self.init_db()
         Clock.schedule_once(self.on_initialize_complete)
 
     def on_initialize_complete(self, dt):
-        self.layout.clear_widgets()
+        self.root.remove_widget(self.splash)
+        self.header.add_widget(self.header_label)
+        self.layout.add_widget(self.header)
+        self.middle.add_widget(self.generate_label)
+        self.middle.add_widget(self.generate_word)
+        self.layout.add_widget(self.middle)
+        self.bottom.add_widget(self.info)
+        self.layout.add_widget(self.bottom)
+        self.root.add_widget(self.left_section)
+        self.root.add_widget(self.layout)
 
 
 
