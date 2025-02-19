@@ -74,7 +74,6 @@ class Monkey(MDApp):
         self.conn = None
         self.dialog = None
 
-        self.conn = sqlite3.connect("monkeywords.db")
     def build(self):
         self.about_program = None
         self.add_word_btn = None
@@ -188,7 +187,6 @@ class Monkey(MDApp):
         return self.root
 
     def on_start(self):
-        self.init_db()
         threading.Thread(target=self.initialize_app, daemon=True).start()
 
 
@@ -197,6 +195,8 @@ class Monkey(MDApp):
         Clock.schedule_once(self.on_initialize_complete)
 
     def on_initialize_complete(self, dt):
+        self.conn = sqlite3.connect("monkeywords.db")
+        self.init_db()
         self.root.remove_widget(self.splash)
         self.header.add_widget(self.header_label)
         self.layout.add_widget(self.header)
