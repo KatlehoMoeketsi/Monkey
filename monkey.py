@@ -1,5 +1,6 @@
 from kivy.uix.label import Label
 from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.button.button import theme_text_color_options
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 import sqlite3
@@ -9,6 +10,7 @@ from kivy.core.window import Window
 from kivy.metrics import dp
 from kivymd.uix.button import MDIconButton
 from kivy.core.text import  LabelBase
+from kivymd.uix.navigationdrawer import MDNavigationDrawer
 from kivymd.uix.snackbar import  MDSnackbar
 from kivymd.uix.label import MDLabel
 import random
@@ -20,10 +22,13 @@ from kivymd.uix.textfield import MDTextField
 from kivy.utils import get_color_from_hex
 from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.spinner import MDSpinner
+from kivymd.uix.toolbar import MDTopAppBar
+
 
 #import required modules for firebase functionality
 import firebase_admin
 from firebase_admin import db, credentials
+from pywin.framework.toolmenu import tools
 
 #authenticate to firebase
 cred = credentials.Certificate("credentials.json")
@@ -73,6 +78,9 @@ class SplashScreen(BoxLayout):
 class Monkey(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.add_word_btn = None
+        self.menu_button = None
+        self.nav_drawer = None
         self.info = None
         self.left_section = None
         self.layout = None
@@ -121,6 +129,8 @@ class Monkey(MDApp):
         #first box situated on the right, and it is the main layout carrying most elements
         self.layout = BoxLayout(orientation="vertical")
 
+        self.menu_button = MDIconButton(icon= "assets/images/menu.png",icon_size="50sp", on_release=lambda x:print("Add Button Clicked"))
+
         #second box situated on the left, and contains the add action and about window
         self.left_section = BoxLayout(
             orientation="vertical",
@@ -140,7 +150,7 @@ class Monkey(MDApp):
         #adding the buttons we need for the left panel to the left section of the box layout.
         self.left_section.add_widget(self.add_word_btn)
         self.left_section.add_widget(self.about_program)
-
+        self.left_section.add_widget(self.menu_button)
 
         #Top section
         self.header = BoxLayout(
@@ -204,6 +214,7 @@ class Monkey(MDApp):
         #adding the splash screen to the main layout object
         self.root.add_widget(self.splash)
 
+
         #returns the main layout object
         return self.root
 
@@ -225,6 +236,7 @@ class Monkey(MDApp):
         self.root.remove_widget(self.splash)  #remove the splash widget
 
         #Add relevant widgets to the 3 sections
+
         self.header.add_widget(self.header_label)
         self.layout.add_widget(self.header)
         self.middle.add_widget(self.generate_label)
@@ -307,6 +319,7 @@ class Monkey(MDApp):
             self.dialog = MDDialog(
                 title = "Add a word",
                 type="custom",
+                md_bg_color=(0.56, 0.93, 0.56,0.5),
                 height = "100dp",
                 pos_hint={"center_y":0.5},
                 content_cls= self.content,
@@ -340,6 +353,7 @@ class Monkey(MDApp):
 
             MDLabel(text= "Word Added Successfully", halign="center"),
             pos_hint = {"center_x": 0.5, "y":0.1},
+
             duration= 3,
             md_bg_color = (0,0,0,1),
         )
@@ -363,6 +377,7 @@ class Monkey(MDApp):
       """
         dialog = MDDialog(
             title="Oops!",
+            md_bg_color=(0.56, 0.93, 0.56, 0.5),
             text="Error, Please add a word to the text field and click 'Add' to continue ",
             buttons=[MDFlatButton(text="Close", on_release=lambda x: dialog.dismiss())
                      ],
@@ -416,8 +431,13 @@ class Monkey(MDApp):
         """
         dialog = MDDialog(
             title = "About this App",
+            md_bg_color=(0.56, 0.93, 0.56, 0.5),
             text= "Sample application using KivyMD.\nBuilt with Python and Kivy",
             buttons=[MDFlatButton(text="Close", on_release=lambda x:dialog.dismiss())
                 ],
         )
         dialog.open()
+
+
+    def hide_menu(self):
+     pass
