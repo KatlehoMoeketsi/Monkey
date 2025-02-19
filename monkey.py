@@ -20,7 +20,8 @@ from kivymd.uix.textfield import MDTextField
 from kivy.utils import get_color_from_hex
 from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.spinner import MDSpinner
-#import required modules
+
+#import required modules for firebase functionality
 import firebase_admin
 from firebase_admin import db, credentials
 
@@ -30,9 +31,12 @@ firebase_admin.initialize_app(cred, {"databaseURL": "https://momonkeywords-defau
 
 #creating reference to root node - cursor
 ref = db.reference("/")
+
+#test code, remove later
 print(ref.get())
 
-
+#AddWordContent sets the text fields of adding a new word to the database and firebase
+#it is strictly UI
 class AddWordContent(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -43,25 +47,29 @@ class AddWordContent(MDBoxLayout):
         self.size_hint_y = None
         self.add_widget(self.word_input)
 
+#Class SplashScreen sets the members of the loading screen
 class SplashScreen(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(orientation='vertical', spacing=dp(10), padding=dp(20), **kwargs)
+        # self.spinner = MDSpinner(
+        #     size_hint=(None, None),
+        #     size=(dp(48), dp(48)),
+        #     active=True,
+        #     pos_hint={"center_x": 0.5, "center_y": 0.5}
+        # )
+
         self.label = MDLabel(text="Loading...",
                              halign="center",
                              theme_text_color="Custom",
                              text_color=(1,1,1,1),
                              font_name = "TeachersPet"
                              )
-        self.spinner = MDSpinner(
-            size_hint=(None,None),
-            size=(dp(48), dp(48)),
-            active=True,
-            pos_hint = {"center_x": 0.5, "center_y":0.5}
-        )
+
         self.add_widget(self.label)
-        self.add_widget(self.spinner)
+        # self.add_widget(self.spinner)
 
-
+#Main entry point of the program: The class has the build method which builds the UI.
+#Class Monkey is also housing the members which assist in the function of the program.
 class Monkey(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -88,9 +96,10 @@ class Monkey(MDApp):
         self.layout = None
 
         # Window.fullscreen = 'auto'
+        #registering the different fonts used in the app.
         LabelBase.register(name="TeachersPet", fn_regular="assets/teachersPet.ttf")
-        LabelBase.register(name="SquareKids", fn_regular="assets/SquareKids.ttf")
 
+        #creating a splash object that'll be used to display the loading widgets upon opening the app
         self.splash = SplashScreen()
 
         """
@@ -117,13 +126,18 @@ class Monkey(MDApp):
             orientation="vertical",
             size_hint_x=0.1,
             )
+
+
         #ImageButtons on the left comprising the menu of the program.
         # It will disappear once we go full screen.
         self.add_word_btn = MDIconButton(icon= "assets/images/add.png",icon_size="50sp", on_release=lambda x:print("Add Button Clicked"))
         self.about_program = MDIconButton(icon= "assets/images/about.png",icon_size="50sp", on_release=lambda x:print("About Button clicked"))
+
+        #left section buttons binding to the functions
         self.about_program.bind(on_press=self.show_about_dialog)
         self.add_word_btn.bind(on_press=self.add_word_dialog)
 
+        #adding the buttons we need for the left panel to the left section of the box layout.
         self.left_section.add_widget(self.add_word_btn)
         self.left_section.add_widget(self.about_program)
 
@@ -154,13 +168,15 @@ class Monkey(MDApp):
             size_hint_y=0.3,
             pos_hint={"center_x":0.5}
         )
+
+        #label which will change dynamically with random words from the database
         self.generate_label = Label(text="Click Button to generate a Word",
                                     font_size=80, size_hint_y=0.3,
                                     text_size=(400, None),
                                     halign="center",
                                     valign="middle",
                                     font_name="TeachersPet")
-
+        #Main button on the screen
         self.generate_word = MDRaisedButton(text="Generate",
                                     font_name="TeachersPet",
                                     font_size=20,
@@ -169,7 +185,7 @@ class Monkey(MDApp):
                                     text_color= get_color_from_hex("#000000"),
                                     height=30)
 
-        self.generate_word.bind(on_press=self.generate_random_word)
+        self.generate_word.bind(on_press=self.generate_random_word) #Binds the Button to the button function
 
 
 
@@ -181,23 +197,34 @@ class Monkey(MDApp):
             size_hint_y=0.1,
             pos_hint={"center_x": 0.5}
         )
+
+        #company information at the bottom of the window.
         self.info = Label(text="techmerce productions",size_hint_y=0.3, font_size=12,halign="center", valign="middle")
 
+        #adding the splash screen to the main layout object
         self.root.add_widget(self.splash)
+
+        #returns the main layout object
         return self.root
 
+
+
+    #Begins the loading thread and points to initialize_app()
     def on_start(self):
         threading.Thread(target=self.initialize_app, daemon=True).start()
-
-
+    #Second step after on_start() and can help loading components and functions
     def initialize_app(self):
         time.sleep(5)
         Clock.schedule_once(self.on_initialize_complete)
-
+    #Third step - once second step of the thread is complete, begin loading UI elements here
     def on_initialize_complete(self, dt):
         self.conn = sqlite3.connect("monkeywords.db")
         self.init_db()
-        self.root.remove_widget(self.splash)
+
+
+        self.root.remove_widget(self.splash)  #remove the splash widget
+
+        #Add relevant widgets to the 3 sections
         self.header.add_widget(self.header_label)
         self.layout.add_widget(self.header)
         self.middle.add_widget(self.generate_label)
@@ -210,7 +237,7 @@ class Monkey(MDApp):
 
 
 
-
+    #initializes the database if it does not exist, it creates a new one
     def init_db(self):
         """
            Loads the database
@@ -230,6 +257,7 @@ class Monkey(MDApp):
                              word TEXT NOT NULL)''')
         self.conn.commit()
 
+    #generates a random word and sends it to generate_label Label in the UI
     def generate_random_word(self, instance):
         """
            Generates the random word after the Generate button is clicked
@@ -258,6 +286,8 @@ class Monkey(MDApp):
         else:
             self.generate_label.text="No words found"  # Handle empty database
 
+    #TODO(kat, 2025/02/19): Need to change the add_word_dialogue to a
+    # separate screen where database has full CRUD functions
     def add_word_dialog(self,instance):
         """
            Add Word Dialog window
@@ -289,6 +319,9 @@ class Monkey(MDApp):
 
         self.dialog.open()
 
+
+    #TODO(kat,2025/02/19): Change this snackbar's context to
+    # match the new CRUD window for a successful CRUD operation
     def show_successful(self):
         """
           SnackBar message for successful insertion into database.
@@ -312,6 +345,8 @@ class Monkey(MDApp):
         )
         self.snackbar.open()
 
+    # TODO(kat,2025/02/19): Change this snackbar's context to
+    # match the new CRUD window for a unsuccessful CRUD operation
     @staticmethod
     def show_unsuccessful():
         """
@@ -363,6 +398,7 @@ class Monkey(MDApp):
         else:
             self.show_unsuccessful()
         self.dialog.dismiss()
+
 
     @staticmethod
     def show_about_dialog(self):
